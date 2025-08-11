@@ -22,10 +22,11 @@ install_debian_common:
 install_debian_arm:
 	$(MAKE) install_debian_common
 	sudo apt install -y qemu-system-arm
+	sudo apt install python3-pyqt5
 	@echo "Note : dynamips n'est pas disponible sur ARM, veuillez l'installer manuellement si nécessaire."
 	pipx install gns3-server
 	pipx install gns3-gui
-	pipx inject gns3-gui gns3-server PyQt5
+	pipx inject gns3-gui gns3-server sip
 
 install_debian_x86_64:
 	$(MAKE) install_debian_common
