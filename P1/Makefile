@@ -1,67 +1,36 @@
-.PHONY: all base gns3 docker-image
+# ---------------------------------------------------------------------------------------------------
+# Installation de GNS3 et de Docker sur Debian
+# ---------------------------------------------------------------------------------------------------
 
-all: base gns3 docker-image
+# Cible principale : installe Docker, GNS3 et l'image Docker de FRRouting
+all: gns3 docker-image
 	@echo "[✓] Installation complète terminée."
 	@echo "👉 Redémarre ta session pour que les changements prennent effet (accès Docker)."
+
+# ---------------------------------------------------------------------------------------------------
+# Installation de Docker
+# ---------------------------------------------------------------------------------------------------
 
 install-docker:
 	@echo "[+] Installation de la configuration de base"
 	sudo apt update
 	sudo apt install -y docker.io
 	sudo systemctl enable docker
-	sudo usermod -aG $(USER)
-	@echo "[+] Base installée. Redémarre ta session pour que le groupe docker soit pris en compte."
+	sudo usermod -aG docker $(USER)  # Ajout de l'utilisateur au groupe docker
+	@echo "[✓] Base installée. Redémarre ta session pour que le groupe Docker soit pris en compte."
 
-OS := $(shell uname)
-ARCH := $(shell uname -m)
+# ---------------------------------------------------------------------------------------------------
+# Installation de GNS3 (dépend de l'installation de Docker)
+# ---------------------------------------------------------------------------------------------------
 
-install_debian_common:
-	sudo apt update
-	sudo apt install -y python3 python3-pip pipx python3-pyqt5 python3-pyqt5.qtwebsockets python3-pyqt5.qtsvg qemu-utils libvirt-clients libvirt-daemon-system virtinst software-properties-common ca-certificates curl gnupg2
-
-install_debian_arm:
-	$(MAKE) install_debian_common
-	sudo apt install -y qemu-system-arm
-	sudo apt install python3-pyqt5
-	@echo "Note : dynamips n'est pas disponible sur ARM, veuillez l'installer manuellement si nécessaire."
-	pipx install gns3-server
-	pipx install gns3-gui
-	pipx inject gns3-gui gns3-server sip
-
-install_debian_x86_64:
-	$(MAKE) install_debian_common
-	sudo apt install -y qemu-kvm dynamips
-	pipx install gns3-server
-	pipx install gns3-gui
-	pipx inject gns3-gui gns3-server PyQt5
-
-install_macos:
-	brew update
-	brew install python3 pipx pyqt qemu libvirt virt-manager dynamips curl gnupg
-	pipx install gns3-server
-	pipx install gns3-gui
-	pipx inject gns3-gui gns3-server PyQt5
-
-install_gns3:
-ifeq ($(OS),Linux)
-	ifeq ($(ARCH),aarch64)
-		$(MAKE) install_debian_arm
-	else ifeq ($(ARCH),x86_64)
-		$(MAKE) install_debian_x86_64
-	else
-		$(error Architecture Linux $(ARCH) non supportée)
-	endif
-else ifeq ($(OS),Darwin)
-	$(MAKE) install_macos
-else
-	$(error OS $(OS) non supporté)
-endif
-
-gns3: install_gns3
+gns3: install-docker gns3-gui docker-image
 	@python3 --version
 	@pip3 --version
 	@echo "[✓] GNS3 GUI installé."
 
+# ---------------------------------------------------------------------------------------------------
+# Téléchargement de l'image Docker FRRouting
+# ---------------------------------------------------------------------------------------------------
 
 docker-image:
 	@echo "🌐 Téléchargement de l'image FRRouting officielle..."
@@ -72,3 +41,41 @@ docker-image:
 	fi
 	docker pull frrouting/frr:latest
 	@echo "[✓] Image Docker téléchargée."
+
+# ---------------------------------------------------------------------------------------------------
+# Installation du GNS3 GUI et de ses dépendances
+# ---------------------------------------------------------------------------------------------------
+
+gns3-gui:
+	@echo "🔧 Installation des dépendances pour GNS3..."
+	sudo apt update
+	sudo apt install -y python3 python3-pip pipx python3-pyqt5 python3-pyqt5.qtwebsockets python3-pyqt5.qtsvg \
+		qemu-system-x86 qemu-utils libvirt-clients libvirt-daemon-system virtinst software-properties-common \
+		ca-certificates curl gnupg2
+	@echo "[✓] Dépendances installées."
+
+	@echo "📥 Téléchargement et installation de Dynamips..."
+	wget http://ftp.us.debian.org/debian/pool/non-free/d/dynamips/dynamips_0.2.14-1_amd64.deb
+	sudo dpkg -i dynamips_0.2.14-1_amd64.deb
+	@echo "[✓] Dynamips installé."
+
+	@echo "⚙️ Installation de GNS3 Server et GNS3 GUI via pipx..."
+	pipx install gns3-server
+	pipx install gns3-gui
+	pipx ensurepath  # S'assure que pipx est correctement configuré dans le PATH
+	pipx inject gns3-gui gns3-server PyQt5
+	@echo "[✓] GNS3 GUI installé."
+
+# ---------------------------------------------------------------------------------------------------
+# Notes :
+# - N'oublie pas de redémarrer ta session pour que Docker et GNS3 fonctionnent correctement.
+# - Les étapes d'installation peuvent être modifiées en fonction de tes besoins spécifiques.
+# ---------------------------------------------------------------------------------------------------
+# ---------------------------------------------------------------------------------------------------
+# Nettoyage des fichiers temporaires (par exemple, fichiers .deb)
+# ---------------------------------------------------------------------------------------------------
+
+clean:
+	@echo "🧹 Nettoyage de l'espace de travail..."
+	rm -f dynamips_0.2.14-1_amd64.deb*
+	@echo "[✓] Fichiers nettoyés."
