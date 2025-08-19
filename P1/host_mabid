@@ -1,0 +1,5 @@
+FROM alpine:latest
+
+#We install all the tool that we need -> busybox
+RUN apk update && \
+    apk add util-linux

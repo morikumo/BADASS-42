@@ -1,0 +1,14 @@
+FROM frrouting/frr
+
+#Spécifier quels démons FRR (FRRouting) doivent être activés au démarrage du conteneur.
+ENV DAEMONS="zebra bgpd ospfd isisd"
+
+#Busybox
+RUN apk update && \
+    apk add util-linux
+
+#Copier le fichier de configuration des démons la ou il vont s'y référé. La raison->
+#If any daemon should crash for some reason (segmentation fault, assertion failure, etc.), 
+#it will attempt to write a backtrace to a file located in /var/tmp/frr/<daemon>[-<instance>].<pid>/crashlog. 
+#This feature is not affected by any configuration options.
+COPY ./daemons.conf /etc/frr/daemons

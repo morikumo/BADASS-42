@@ -66,6 +66,17 @@ gns3-gui:
 	pipx inject gns3-gui gns3-server PyQt5
 	@echo "[✓] GNS3 GUI installé."
 
+
+# ---------------------------------------------------------------------------------------------------
+# Build les images docker
+# ---------------------------------------------------------------------------------------------------
+build-images:
+	@echo "🔨 Construction des images Docker..."
+	docker build -f router_mabid -t router_mabid_p1 .
+	docker build -f host_mabid -t host_mabid_p1 .
+	@echo "[✓] Images Docker construites."
+
+
 # ---------------------------------------------------------------------------------------------------
 # Notes :
 # - N'oublie pas de redémarrer ta session pour que Docker et GNS3 fonctionnent correctement.
@@ -78,4 +89,6 @@ gns3-gui:
 clean:
 	@echo "🧹 Nettoyage de l'espace de travail..."
 	rm -f dynamips_0.2.14-1_amd64.deb*
+	docker rmi *
+	docker system prune --volumes --force
 	@echo "[✓] Fichiers nettoyés."
