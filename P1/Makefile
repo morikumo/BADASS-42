@@ -89,7 +89,7 @@ build-images:
 clean:
 	@echo "🧹 Nettoyage de l'espace de travail..."
 	docker rm -f $(docker ps -aq)
-	docker rmi -f $(docker images -aq)
+	docker rmi -f $(docker images)
 	docker volume prune --force
 	docker network prune --force
 	docker image prune --all --force
