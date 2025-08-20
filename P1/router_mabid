@@ -5,7 +5,8 @@ ENV DAEMONS="zebra bgpd ospfd isisd"
 
 #Busybox
 RUN apk update && \
-    apk add util-linux
+    apk add util-linux && \
+    apk add busybox-static
 
 #Copier le fichier de configuration des démons la ou il vont s'y référé. La raison->
 #If any daemon should crash for some reason (segmentation fault, assertion failure, etc.), 

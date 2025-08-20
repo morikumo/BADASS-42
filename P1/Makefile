@@ -72,8 +72,8 @@ gns3-gui:
 # ---------------------------------------------------------------------------------------------------
 build-images:
 	@echo "🔨 Construction des images Docker..."
-	docker build -f router_mabid -t router_mabid_p1 .
-	docker build -f host_mabid -t host_mabid_p1 .
+	docker build -f router_mabid -t router-mabid-p1 .
+	docker build -f host_mabid -t host-mabid-p1 .
 	@echo "[✓] Images Docker construites."
 
 
@@ -88,7 +88,11 @@ build-images:
 
 clean:
 	@echo "🧹 Nettoyage de l'espace de travail..."
+	docker rm -f $(docker ps -aq)
+	docker rmi -f $(docker images -aq)
+	docker volume prune --force
+	docker network prune --force
+	docker image prune --all --force
 	rm -f dynamips_0.2.14-1_amd64.deb*
-	docker rmi *
-	docker system prune --volumes --force
-	@echo "[✓] Fichiers nettoyés."
+	@echo "[✓] Docker et fichiers nettoyés."
+
