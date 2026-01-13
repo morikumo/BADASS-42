@@ -43,7 +43,7 @@ docker-image:
 	@echo "[✓] Image Docker téléchargée."
 
 # ---------------------------------------------------------------------------------------------------
-# Installation du GNS3 GUI et de ses dépendances
+# Installation du GNS3 GUI et de ses dépendances (Débian)
 # ---------------------------------------------------------------------------------------------------
 
 gns3-gui:
@@ -54,15 +54,16 @@ gns3-gui:
 		ca-certificates curl gnupg2
 	@echo "[✓] Dépendances installées."
 
-	@echo "📥 Téléchargement et installation de Dynamips..."
-	wget http://ftp.us.debian.org/debian/pool/non-free/d/dynamips/dynamips_0.2.14-1_amd64.deb
-	sudo dpkg -i dynamips_0.2.14-1_amd64.deb
-	@echo "[✓] Dynamips installé."
+
+	#@echo "📥 Téléchargement et installation de Dynamips..."
+	#@wget http://ftp.us.debian.org/debian/pool/non-free/d/dynamips/dynamips_0.2.14-1_amd64.deb
+	#@sudo dpkg -i dynamips_0.2.14-1_amd64.deb
+	#@echo "[✓] Dynamips installé."
 
 	@echo "⚙️ Installation de GNS3 Server et GNS3 GUI via pipx..."
 	pipx install gns3-server
 	pipx install gns3-gui
-	pipx ensurepath  # S'assure que pipx est correctement configuré dans le PATH
+	#pipx ensurepath  # S'assure que pipx est correctement configuré dans le PATH
 	pipx inject gns3-gui gns3-server PyQt5
 	@echo "[✓] GNS3 GUI installé."
 
