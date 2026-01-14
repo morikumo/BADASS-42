@@ -89,11 +89,11 @@ build-images:
 
 clean:
 	@echo "🧹 Nettoyage de l'espace de travail..."
-	docker rm -f $(docker ps -aq)
+	rm -f *.deb *venv
 	docker rmi -f $(docker images)
 	docker volume prune --force
 	docker network prune --force
 	docker image prune --all --force
-	rm -f dynamips_0.2.14-1_amd64.deb*
+	docker rm -f $(docker ps -aq)
 	@echo "[✓] Docker et fichiers nettoyés."
 
