@@ -63,7 +63,7 @@ gns3-gui:
 	@echo "⚙️ Installation de GNS3 Server et GNS3 GUI via pipx..."
 	pipx install gns3-server
 	pipx install gns3-gui
-	#pipx ensurepath  # S'assure que pipx est correctement configuré dans le PATH
+	pipx ensurepath  # S'assure que pipx est correctement configuré dans le PATH
 	pipx inject gns3-gui gns3-server PyQt5
 	@echo "[✓] GNS3 GUI installé."
 
