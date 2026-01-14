@@ -52,6 +52,7 @@ gns3-gui:
 	sudo apt install -y python3 python3-pip pipx python3-pyqt5 python3-pyqt5.qtwebsockets python3-pyqt5.qtsvg \
 		qemu-system-x86 qemu-utils libvirt-clients libvirt-daemon-system virtinst software-properties-common \
 		ca-certificates curl gnupg2
+	wget http://ftp.us.debian.org/debian/pool/non-free/d/dynamips/dynamips_0.2.14-1_amd64.deb
 	@echo "[✓] Dépendances installées."
 
 
