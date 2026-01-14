@@ -49,6 +49,21 @@ gns3-gui:
 
 Ici tout simplement installation de toutes les dépendances propres a GNS3 et enfin l'outil souhaité.
 
+J'ai eu quelques soucis avec la dépandance *software-properties-common* qui n'était pas trouvé avec les sources actuel de debian.
+En ajoutant une sources supplémentaires officiel via le site des packages debian nous pouvons maintenant l'installer.
+Il va donc falloir ajouter au source de apt notre nouvelle source pour qu'il aille la trouver la bas:
+
+```sh
+sudo nano /etc/apt/sources.list
+```
+Et dans le fichier on ajoute comme nouvelle source:
+
+```sh
+deb http://ftp.de.debian.org/debian sid main 
+```
+
+Link : [text](https://packages.debian.org/fr/sid/all/software-properties-common/download)
+
 Une fois ça fait on peut lancer la commande gns3 pour un premier aperçu.
 
 ### Docker images with attributes
