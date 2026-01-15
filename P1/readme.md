@@ -132,3 +132,29 @@ vtysh_enable=yes
 Ce fichier sert à activer ou désactiver les protocoles de routage FRRouting selon les besoins : ici, zebra (le cœur), BGP, OSPF et IS-IS sont activés, tandis que les autres protocoles ne sont pas utilisés. Tous ces services sont lancés automatiquement au démarrage via zebra, et l’option vtysh_enable=yes permet de charger et gérer facilement la configuration avec l’outil de commande FRR.
 
 Avec cette configuration nous allons pouvoir démarré gns3 et finir cette partie 1.
+
+
+Au démarrage de GNS3, on essaye d'incorporer nos images via Edit > Preferences > Docker Container > ADD.
+
+Une fois ça fait on peut le trouver dans l'ensemble des devices, et on l'ajoute au milieu pour nos services disponibles à utiliser.
+
+On démarre le container via GNS3 et la ... Problème avec busybox.
+
+Attention en plus d'etre présent dans les images il doit aussi etre présent sur la machine donc :
+```sh
+sudo apt install busybox-static
+```
+
+Super on n'as plus l'erreur lorsque l'on le lance, mais cette fois problème avecc uBridge, donc:
+
+```sh
+sudo apt update
+sudo apt install -y git build-essential libpcap-dev
+git clone https://github.com/GNS3/ubridge.git
+cd ubridge
+make
+sudo make install
+ubridge -v
+```
+
+Une fois ça installé on teste une nouvelle fois, et ...
