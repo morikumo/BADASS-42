@@ -157,4 +157,49 @@ sudo make install
 ubridge -v
 ```
 
-Une fois ça installé on teste une nouvelle fois, et ...
+Une fois ça installé on teste une nouvelle fois, et ça marche enfin.
+
+
+### GNS3
+
+Bon maintenant on peut agir sur GNS3.
+
+On lance la commande:
+
+```sh
+gns3
+```
+
+L'interface s'ouvre, on crée un projet et on fait la manip cité ultérieurement : Edit > Preferences > Docker Container > New
+
+On choisie le tout par défaut.
+
+On va sur "Browse all device", on choisi nos container que l'on mets au milieu pouis clique droit pour changer la config.
+
+On choisi la config suivante :
+
+- On ne touche que a "Maximum memory" et "Auxilary console type"
+- Maximum memory : 256MB
+- Auxilary console type : telnet
+
+Et on les mets au milieu avant de les lancer et clique droit pour auxilary console.
+
+On va essayer d'avoir la meme configue que sur le sujet c'est a dire:
+
+
+Ce qui n'est pas le cas, il va falloir lancer vtysh pour avoir la meme config, donc on le fait :
+
+```sh
+vtysh
+```
+
+output:
+```sh
+Can't open configuration file /etc/frr/vtysh.conf due to 'No such file or directory'
+```
+
+Hmm, il va nous falloir de la config supplémentaire pour ça, en cherchant sur internet on a :
+
+Link : [text](https://github.com/sonic-net/sonic-frr/blob/master/vtysh/vtysh.conf.sample)
+
+On ajoute donc notre config a notre dossier P1 et on ajoute au dockerfile une copie de celui-ci.
