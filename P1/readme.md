@@ -203,3 +203,49 @@ Hmm, il va nous falloir de la config supplémentaire pour ça, en cherchant sur 
 Link : [text](https://github.com/sonic-net/sonic-frr/blob/master/vtysh/vtysh.conf.sample)
 
 On ajoute donc notre config a notre dossier P1 et on ajoute au dockerfile une copie de celui-ci.
+
+Enfin on lance nos conteneur dans GNS3, on va dans l'auxilary console pour check notre config sur notre host et routeur:
+
+*Host* :
+```sh
+/ # ps 
+	PID USER COMMAND 
+	1 root /bin/sh 
+	314 root /gns3/bin/busybox sh -c while true; do TERM=vt100 /gns3/bin/busy 
+	320 root /gns3/bin/busybox sh 
+	321 root {ps} /gns3/bin/busybox sh
+```
+
+*Routeur* :
+
+```sh
+/ # ps
+PID USER COMMAND
+	1 root /sbin/tini -- /usr/lib/frr/docker-start
+	309 root /gns3/bin/busybox sh -c while true; do TERM=vt100 /gns3/bin/busy
+	315 root /gns3/bin/busybox sh
+	322 root {docker-start} /bin/bash /usr/lib/frr/docker-start
+	331 root /usr/lib/frr/watchfrr zebra bgpd ospfd isisd staticd
+	347 frr /usr/lib/frr/zebra -d -F traditional -s 90000000 --daemon -A 127
+	352 frr /usr/lib/frr/bgpd -d -F traditional --daemon -A 127.0.0.1
+	359 frr /usr/lib/frr/ospfd -d -F traditional --daemon -A 127.0.0.1
+	362 frr /usr/lib/frr/isisd -d -F traditional --daemon -A 127.0.0.1
+	365 frr /usr/lib/frr/staticd -d -F traditional --daemon -A 127.0.0.1
+	369 root {ps} /gns3/bin/busybox sh
+```
+
+Ca ressemble à l'exemple du sujet et ça devrait etre bon pour la Partie 1, du coup petite checklist de nos attendu :
+
+```
+- Check-list P1 -
+
+- Host : pas d’IP v4 par défaut (uniquement loopback). Sur eth0 on n’as que du link-local IPv6 fe80:: 
+
+- Routeur : daemons présents (zebra ospfd bgpd isisd watchfrr staticd) → OK. 
+
+Console accessible dans GNS3 (via vtysh et un prompt). 
+
+Nom du routeur contient le login (router-mabid-p1-1) → OK. 
+
+Config FRR “vide” (pas d’adresses, pas de routing activé par défaut) → OK.
+```
