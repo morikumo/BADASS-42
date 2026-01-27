@@ -6,7 +6,7 @@ Ici nous allons expliqué le makefile étapes par étapes, ainsi que la configur
 
 ### Docker
 
-Première étape aprés avoir instancié la machien viruel sur *Debian* (obligatoire pour cette config), on installe Docker comme demandé :
+Première étape aprés avoir instancié la machien viruel sur *Ubuntu* (obligatoire pour cette config), on installe Docker comme demandé :
 
 ```sh
 # ---------------------------------------------------------------------------------------------------
@@ -33,38 +33,12 @@ Link : [text](https://docs.gns3.com/docs/getting-started/installation/linux/)
 
 ```sh
 # ---------------------------------------------------------------------------------------------------
-# Installation du GNS3 GUI et de ses dépendances (Débian)
+# Installation du GNS3 GUI et de ses dépendances (Ubuntu)
 # ---------------------------------------------------------------------------------------------------
 
-gns3-gui:
-	sudo apt update
-	sudo apt install -y python3 python3-pip pipx python3-pyqt5 python3-pyqt5.qtwebsockets python3-pyqt5.qtsvg \
-	qemu-system-x86 qemu-utils libvirt-clients libvirt-daemon-system virtinst software-properties-common \
-	ca-certificates curl gnupg2
-	pipx install gns3-server
-	pipx install gns3-gui
-	#pipx ensurepath  # S'assure que pipx est correctement configuré dans le PATH en commentaire pour le moment
-	pipx inject gns3-gui gns3-server PyQt5
-```
+On suit uniquement les attribut choisi pour la config GNS3 pour ubuntu via la doc officiel soit:
 
-Ici tout simplement installation de toutes les dépendances propres a GNS3 et enfin l'outil souhaité.
-
-J'ai eu quelques soucis avec la dépandance *software-properties-common* qui n'était pas trouvé avec les sources actuel de debian.
-En ajoutant une sources supplémentaires officiel via le site des packages debian nous pouvons maintenant l'installer.
-Il va donc falloir ajouter au source de apt notre nouvelle source pour qu'il aille la trouver la bas:
-
-```sh
-sudo nano /etc/apt/sources.list
-```
-Et dans le fichier on ajoute comme nouvelle source:
-
-```sh
-deb http://ftp.de.debian.org/debian sid main 
-```
-
-Link : [text](https://packages.debian.org/fr/sid/all/software-properties-common/download)
-
-Une fois ça fait on peut lancer la commande gns3 pour un premier aperçu.
+Voir makefile , regle Gns3-gui
 
 ### Docker images with attributes
 
