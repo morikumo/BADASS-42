@@ -6,7 +6,7 @@ ENV DAEMONS="zebra bgpd ospfd isisd"
 #Busybox
 RUN apk update && \
     apk add util-linux && \
-    apk add busybox-static \
+    apk add busybox-static &&\
     apk add iproute2
 
 #Copier le fichier de configuration des démons la ou il vont s'y référé. La raison->
