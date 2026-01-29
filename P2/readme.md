@@ -87,4 +87,17 @@ ip link show vxlan10
 ip link show eth1
 ```
 
-17:51
+Nos deux routeur sont mainteant configurer.
+
+On va tester avec nos host maintenant :
+
+Sur un de nos host 
+```sh
+ip addr add 30.1.1.1/24 dev eth1 # ou eth0 en fonction de notre device
+```
+
+Maintenant mettre le *multicast* dans nos routeurs pour le mettre en place dans l'ensemble du process.
+
+Un problème avec l'attribution d'une adresse a notre host , que sa soit la première ou la deuxième.
+
+L'attribution d'un adresse ne fonctionne pas sur eth1 il faudra donc peut etre ajouter des port a notre host aussi, surement un de plus ou peut etre plus, a voir. C'est la seul piste que j'ai maintenant.
