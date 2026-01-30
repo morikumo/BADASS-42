@@ -36,7 +36,7 @@ ip addr show eth0
 Ensuite on mets en place le vxlan:
 
 ```sh
-ip link add name vxlan10 type vxlan id 10 dev eth0 remote 10.1.1.2 local 10.1.1.1 dstport 1234
+ip link add name vxlan10 type vxlan id 10 dev eth0 remote 10.1.1.2 local 10.1.1.1 dstport 4789
 ip addr add 20.1.1.1/24 dev vxlan10
 ```
 
@@ -70,12 +70,35 @@ ip link show eth1
 
 Premier router de fait il faut maintenant le faire pour le second :
 
+
+Donc pour le premier :
+
+```sh
+ip link add br0 type bridge
+ip link set dev br0 up
+ip addr add 10.1.1.1/24 dev eth0
+ip addr show eth0
+ip link add name vxlan10 type vxlan id 10 dev eth0 remote 10.1.1.2 local 10.1.1.1 dstport 4789
+ip addr add 20.1.1.1/24 dev vxlan10
+ip link show vxlan10
+ip addr show vxlan10
+brctl addif br0 eth1 #Vers le host en eth1
+brctl addif br0 vxlan10 #On donne aussi les accès au vxlan pour un communication meilleur
+ip link set dev vxlan10 up
+ip addr show vxlan10
+ip link show vxlan10
+ip link show eth1
+```
+
+Et pour le second :
+
+
 ```sh
 ip link add br0 type bridge
 ip link set dev br0 up
 ip addr add 10.1.1.2/24 dev eth0
 ip addr show eth0
-ip link add name vxlan10 type vxlan id 10 dev eth0 remote 10.1.1.2 local 10.1.1.1 dstport 1234
+ip link add name vxlan10 type vxlan id 10 dev eth0 remote 10.1.1.2 local 10.1.1.1 dstport 4789
 ip addr add 20.1.1.2/24 dev vxlan10
 ip link show vxlan10
 ip addr show vxlan10
@@ -93,8 +116,17 @@ On va tester avec nos host maintenant :
 
 Sur un de nos host 
 ```sh
-ip addr add 30.1.1.1/24 dev eth1 # ou eth0 en fonction de notre device
+ip addr add 30.1.1.1/24 dev eth1
 ```
+
+
+Et pour le second:
+
+```sh
+ip addr add 30.1.1.2/24 dev eth1
+```
+
+
 
 Maintenant mettre le *multicast* dans nos routeurs pour le mettre en place dans l'ensemble du process.
 
