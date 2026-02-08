@@ -223,3 +223,56 @@ Nom du routeur contient le login (router-mabid-p1-1) → OK.
 
 Config FRR “vide” (pas d’adresses, pas de routing activé par défaut) → OK.
 ```
+
+Il faut par contre configurer les protocol ospf et isis pour le bon fonctionnement des envoies. C'est donc le pont entre p1 et p2 car dans la p1 on ne demamde qu'un routeur or p2 il en faut 2. Donc la config suivante sera faites pour les 2 routeur mais on peut appliquer que le premier pour la p1 et faire le suivant coté p2.
+
+Config :
+
+#Routeur 1 (ospf)
+vtysh
+conf t
+int lo
+ip addr 1.1.1.1/32
+int eth0
+ip addr 10.1.1.1/30
+router ospf
+network 0.0.0.0/0 are 0
+
+# Routeur 2 (ospf)
+vtysh
+conf t
+int lo
+ip addr 1.1.1.2/32
+int eth0
+ip addr 10.1.1.2/30
+router ospf
+network 0.0.0.0/0 are 0
+
+# Pour tester la connectivité
+do sh ip ospf int
+do sh ip ospf neighbor
+do sh ip route 
+do ping 1.1.1.1 #ou 1.1.1.2 en fonction de sur quel machine on est
+
+# Routeur 1 (isis)
+router isis 1
+net 49.0000.0000.0001.00
+int lo 
+ip router isis 1
+int eth0
+ip router isis 1
+
+
+# Routeur 2 (isis)
+router isis 1
+net 49.0000.0000.0002.00
+int lo 
+ip router isis 1
+int eth0
+ip router isis 1
+
+do sh isis int
+do sh isis neighbor
+do sh ip route
+
+Une fois ça fait, p1 terminer.
