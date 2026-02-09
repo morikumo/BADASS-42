@@ -79,7 +79,7 @@ ip link set dev br0 up
 ip addr add 10.1.1.1/24 dev eth0
 ip addr show eth0
 ip link add name vxlan10 type vxlan id 10 dev eth0 remote 10.1.1.2 local 10.1.1.1 dstport 4789
-ip addr add 20.1.1.1/24 dev vxlan10
+#ip addr add 20.1.1.1/24 dev vxlan10
 ip link show vxlan10
 ip addr show vxlan10
 brctl addif br0 eth1 #Vers le host en eth1
@@ -99,7 +99,7 @@ ip link set dev br0 up
 ip addr add 10.1.1.2/24 dev eth0
 ip addr show eth0
 ip link add name vxlan10 type vxlan id 10 dev eth0 remote 10.1.1.1 local 10.1.1.2 dstport 4789
-ip addr add 20.1.1.2/24 dev vxlan10
+#ip addr add 20.1.1.2/24 dev vxlan10
 ip link show vxlan10
 ip addr show vxlan10
 brctl addif br0 eth1 #Vers le host en eth1
@@ -126,7 +126,7 @@ Et pour le second:
 ip addr add 30.1.1.2/24 dev eth1
 ```
 
-
+*(La communication unicast ne fonctionnait pas lorsque je donnais une ip a vxlan10, lorsque je ne le fait pas, tout fonctionne, reste à savoir comment bien configurer pour que nos paquet s'affiche en ping sur wireshark (optionel), mais on peut avancer maintenant.)*
 
 Maintenant mettre le *multicast* dans nos routeurs pour le mettre en place dans l'ensemble du process.
 
