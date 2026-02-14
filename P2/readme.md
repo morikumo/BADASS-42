@@ -133,3 +133,5 @@ Maintenant mettre le *multicast* dans nos routeurs pour le mettre en place dans 
 Un problème avec l'attribution d'une adresse a notre host , que sa soit la première ou la deuxième.
 
 L'attribution d'un adresse ne fonctionne pas sur eth1 il faudra donc peut etre ajouter des port a notre host aussi, surement un de plus ou peut etre plus, a voir. C'est la seul piste que j'ai maintenant.
+
+
