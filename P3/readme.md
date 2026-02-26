@@ -14,6 +14,8 @@ Le tout avec VXLAN (pour étandre ça capacité) et OSPF (pour trouver le chemin
 
 Maintenant cela étant dit il faut maintenant faire la configuration de celle-ci.
 
+
+
 ## ROUTEUR 1 
 
 
