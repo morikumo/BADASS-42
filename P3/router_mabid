@@ -13,5 +13,5 @@ RUN apk update && \
 #If any daemon should crash for some reason (segmentation fault, assertion failure, etc.), 
 #it will attempt to write a backtrace to a file located in /var/tmp/frr/<daemon>[-<instance>].<pid>/crashlog. 
 #This feature is not affected by any configuration options.
-COPY ./daemons.conf /etc/frr/daemons
-COPY ./vtysh.conf.sample /etc/frr/vtysh.conf
+COPY ./P3/daemons.conf /etc/frr/daemons
+COPY ./P3/vtysh.conf.sample /etc/frr/vtysh.conf
