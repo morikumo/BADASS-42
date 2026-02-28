@@ -20,6 +20,24 @@ build-images-docker-P3:
 	@echo "[✓] Images Docker construites."
 
 
+
+docker-status:
+	@echo "📦 Conteneurs en cours d'exécution :"
+	docker ps
+	@echo ""
+	@echo "📦 Tous les conteneurs :"
+	docker ps -a
+	@echo ""
+	@echo "🖼️  Images Docker :"
+	docker images
+	@echo ""
+	@echo "💾 Volumes Docker :"
+	docker volume ls
+	@echo ""
+	@echo "🌐 Réseaux Docker :"
+	docker network ls
+
+
 # ---------------------------------------------------------------------------------------------------
 # Notes :
 # - N'oublie pas de redémarrer ta session pour que Docker et GNS3 fonctionnent correctement.
