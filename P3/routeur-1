@@ -1,0 +1,45 @@
+# Configurer notre spine celle qui va agir comme route reflector
+
+# Aller dans la configuration vtysh - FRRouting shell
+vtysh
+conf t
+
+# Nommé notre routeur
+hostname router_mabid_1
+no ipv6 forwarding
+
+# Lien avec les autre routeur (leaf)
+
+# Leaf 1 - eth0
+interface eth0
+ip address 10.1.1.1/30
+
+# Leaf 2 - eth1
+interface eth1
+ip address 10.1.1.5/30
+
+# Leaf 3 - eth2
+interface eth2
+ip address 10.1.1.9/30
+
+
+# loopback
+interface lo
+ip address 1.1.1.1/32
+
+ # BGP (control plane EVPN)
+router bgp 1
+ neighbor ibgp peer-group
+ neighbor ibgp remote-as 1
+ neighbor ibgp update-source lo
+bgp listen range 1.1.1.0/29 peer-group ibgp
+
+# EVPN
+address-family l2vpn evpn
+ neighbor ibgp activate
+ neighbor ibgp route-reflector-client
+exit-address-family
+
+# OSPF
+router ospf
+ network 0.0.0.0/0 area 0
