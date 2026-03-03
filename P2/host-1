@@ -1,0 +1,3 @@
+### HOST 1
+ip link set eth1 up
+ip addr add 30.1.1.1/24 dev eth1
