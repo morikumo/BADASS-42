@@ -49,7 +49,6 @@ docker-status:
 
 clean:
 	@echo "🧹 Nettoyage de l'espace de travail..."
-	rm -f *.deb *venv
 	docker volume prune --force
 	docker network prune --force
 	docker image prune --all --force
