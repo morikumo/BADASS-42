@@ -110,3 +110,10 @@ docker build -f ./P1/host_mabid   -t host-mabid .
 Une fois les images construites, importez-les dans GNS3 en tant qu'appliances Docker. Le fichier `P1.gns3project` contient la topologie pré-construite pour cette partie. Ouvrez-le dans GNS3 pour explorer et tester la configuration. 
 
 Pour recuperer les images sur GNS3 on va dans Edit > Preference > Docker > Docker Container > New (based on existing images).
+
+A tout moment si un daemons cesse de fonctionner ou n'apparait pas dans le ps :
+
+```sh
+killall zebra #SI le deamon est présent et pose problème (changer zebra par le daemon en question)
+/usr/lib/frr/zebra -d -F traditional -A 127.0.0.1 # Si il ne l'ai pas on ne fait que ça (changer zebra par le daemon en question)
+```

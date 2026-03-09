@@ -26,10 +26,6 @@ docker-status:
 	@echo ""
 	@echo "💾 Volumes Docker :"
 	docker volume ls
-	@echo ""
-	@echo "🌐 Réseaux Docker :"
-	docker network ls
-
 
 # ---------------------------------------------------------------------------------------------------
 # Nettoie les conteneurs, images, volumes et réseaux Docker pour libérer de l'espace et repartir sur une base propre
