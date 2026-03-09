@@ -1,9 +1,9 @@
 all: build-images
 
 # ---------------------------------------------------------------------------------------------------
-# Build les images docker pour la p1
+# Build les images docker pour le host et le routeur
 # ---------------------------------------------------------------------------------------------------
-build-images-docker-P1:
+build-images-docker:
 	@echo "🔨 Construction des images Docker..."
 	docker build -f ./P1/router_mabid -t router-mabid .
 	docker build -f ./P1/host_mabid -t host-mabid .
@@ -11,15 +11,8 @@ build-images-docker-P1:
 
 
 # ---------------------------------------------------------------------------------------------------
-# Build les images docker pour la p3
+# Affiche le status des conteneurs, images, volumes et réseaux Docker
 # ---------------------------------------------------------------------------------------------------
-build-images-docker-P3:
-	@echo "🔨 Construction des images Docker..."
-	docker build -f ./P3/router_mabid -t router-mabid .
-	docker build -f ./P1/host_mabid -t host-mabid .
-	@echo "[✓] Images Docker construites."
-
-
 
 docker-status:
 	@echo "📦 Conteneurs en cours d'exécution :"
@@ -39,12 +32,7 @@ docker-status:
 
 
 # ---------------------------------------------------------------------------------------------------
-# Notes :
-# - N'oublie pas de redémarrer ta session pour que Docker et GNS3 fonctionnent correctement.
-# - Les étapes d'installation peuvent être modifiées en fonction de tes besoins spécifiques.
-# ---------------------------------------------------------------------------------------------------
-# ---------------------------------------------------------------------------------------------------
-# Nettoyage des fichiers temporaires (par exemple, fichiers .deb)
+# Nettoie les conteneurs, images, volumes et réseaux Docker pour libérer de l'espace et repartir sur une base propre
 # ---------------------------------------------------------------------------------------------------
 
 clean:
