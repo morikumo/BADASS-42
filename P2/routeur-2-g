@@ -2,7 +2,7 @@
 
 ```bash
 ip link set eth0 up
-ip addr add 10.1.1.1/24 dev eth0
+ip addr add 10.1.1.2/24 dev eth0
 ip link add br0 type bridge
 ip link set br0 up
 ip link add vxlan10 type vxlan \
